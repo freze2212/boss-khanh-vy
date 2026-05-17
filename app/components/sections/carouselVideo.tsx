@@ -20,7 +20,7 @@ const videoSlides: VideoSlide[] = Array.from({ length: 8 }, (_, index) => ({
   title: `Video ${index + 1}`,
   thumbnail: "/images/carousel/thumpnail.webp",
   alt: `Video ${index + 1}`,
-  src: "",
+  src: "https://player.vimeo.com/video/1192954531",
   type: "embed" as const,
 }));
 
@@ -82,7 +82,7 @@ export default function CarouselVideo() {
               <SwiperSlide key={slide.id}>
                 <button
                   type="button"
-                  // onClick={() => setSelectedVideo(slide)}
+                  onClick={() => setSelectedVideo(slide)}
                   className="group relative block w-full overflow-hidden rounded-[22px] border border-[#00AFFF] bg-[#071321] text-left shadow-[0px_0px_18px_rgba(0,170,255,0.18)] transition hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00EEFF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071321]"
                   aria-label={`Mở ${slide.title}`}
                 >
