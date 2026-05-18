@@ -13,6 +13,29 @@ type VideoModalProps = {
   onClose: () => void;
 };
 
+function getEmbedSrc(src?: string) {
+  if (!src) {
+    return undefined;
+  }
+
+  try {
+    const url = new URL(src);
+    const hostname = url.hostname.replace(/^www\./, "");
+
+    if (hostname === "vimeo.com") {
+      const videoId = url.pathname.split("/").filter(Boolean)[0];
+
+      if (videoId) {
+        return `https://player.vimeo.com/video/${videoId}`;
+      }
+    }
+
+    return src;
+  } catch {
+    return src;
+  }
+}
+
 export default function VideoModal({
   isOpen,
   title,
@@ -20,6 +43,8 @@ export default function VideoModal({
   type = "embed",
   onClose,
 }: VideoModalProps) {
+  const embedSrc = getEmbedSrc(src);
+
   useEffect(() => {
     if (!isOpen) {
       return;
@@ -48,7 +73,7 @@ export default function VideoModal({
 
   return createPortal(
     <div
-      className=" fixed inset-0 z-[100] flex items-center justify-center bg-[#01040D]/90 px-4 py-6 backdrop-blur-sm"
+      className=" fixed inset-0 z-[100] flex items-center justify-center"
       onClick={onClose}
       role="presentation"
     >
@@ -69,7 +94,9 @@ export default function VideoModal({
         </button>
 
         <div className="border-b border-white/10 px-5 py-4 pr-16 text-white lg:px-8">
-          <p className="text-lg font-bold uppercase lg:text-xl">{title}</p>
+          <p className="text-lg font-bold uppercase lg:text-xl hidden">
+            {title}
+          </p>
         </div>
 
         <div className="aspect-video w-full bg-black">
@@ -88,7 +115,7 @@ export default function VideoModal({
             ) : (
               <iframe
                 className="h-full w-full"
-                src={src}
+                src={embedSrc}
                 title={title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
