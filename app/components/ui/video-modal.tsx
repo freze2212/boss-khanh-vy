@@ -22,11 +22,17 @@ function getEmbedSrc(src?: string) {
     const url = new URL(src);
     const hostname = url.hostname.replace(/^www\./, "");
 
-    if (hostname === "vimeo.com") {
-      const videoId = url.pathname.split("/").filter(Boolean)[0];
+    if (hostname === "vimeo.com" || hostname === "player.vimeo.com") {
+      const segments = url.pathname.split("/").filter(Boolean);
+      const videoId =
+        hostname === "vimeo.com" ? segments[0] : segments[segments.length - 1];
 
       if (videoId) {
-        return `https://player.vimeo.com/video/${videoId}`;
+        const embedUrl = new URL(`https://player.vimeo.com/video/${videoId}`);
+        embedUrl.searchParams.set("title", "0");
+        embedUrl.searchParams.set("byline", "0");
+        embedUrl.searchParams.set("portrait", "0");
+        return embedUrl.toString();
       }
     }
 
@@ -92,12 +98,6 @@ export default function VideoModal({
         >
           ×
         </button>
-
-        <div className="border-b border-white/10 px-5 py-4 pr-16 text-white lg:px-8">
-          <p className="text-lg font-bold uppercase lg:text-xl hidden">
-            {title}
-          </p>
-        </div>
 
         <div className="aspect-video w-full bg-black">
           {src ? (

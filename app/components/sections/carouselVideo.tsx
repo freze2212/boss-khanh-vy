@@ -15,12 +15,15 @@ type VideoSlide = {
   type: "embed" | "file";
 };
 
-const videoSlides: VideoSlide[] = Array.from({ length: 8 }, (_, index) => ({
+const primaryVideoSrc = "https://vimeo.com/1200443108?fl=ip&fe=ec";
+const secondaryVideoSrc = "https://player.vimeo.com/video/1192954531";
+
+const videoSlides: VideoSlide[] = Array.from({ length: 9 }, (_, index) => ({
   id: `video-${index + 1}`,
   title: `Video ${index + 1}`,
   thumbnail: "/images/carousel/thumpnail.webp",
   alt: `Video ${index + 1}`,
-  src: "https://player.vimeo.com/video/1192954531",
+  src: index % 2 === 0 ? primaryVideoSrc : secondaryVideoSrc,
   type: "embed" as const,
 }));
 
