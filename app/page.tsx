@@ -15,8 +15,8 @@ export default function Home() {
       <CarouselVideo />
       <ConnectWithUs />
       <Features />
-      <About />
-      <Blog />
+      {/* <About />
+      <Blog /> */}
     </div>
   );
 }
