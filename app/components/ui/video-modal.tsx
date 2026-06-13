@@ -29,6 +29,7 @@ function getEmbedSrc(src?: string) {
 
       if (videoId) {
         const embedUrl = new URL(`https://player.vimeo.com/video/${videoId}`);
+        embedUrl.searchParams.set("autoplay", "1");
         embedUrl.searchParams.set("title", "0");
         embedUrl.searchParams.set("byline", "0");
         embedUrl.searchParams.set("portrait", "0");
