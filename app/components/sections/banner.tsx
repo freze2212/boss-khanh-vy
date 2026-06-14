@@ -5,7 +5,7 @@ const externalUrl = "https://xx88v1.vip";
 
 export default function Banner() {
   return (
-    <section className="relative w-full h-[560px] bg-[url('/images/banner/banner.jpg')] bg-cover bg-center bg-no-repeat px-4 py-10 text-white lg:px-8 lg:py-16">
+    <section className="relative w-full h-[560px] bg-[url('/images/banner/banner.webp')] bg-cover bg-center bg-no-repeat px-4 py-10 text-white lg:px-8 lg:py-16">
       <div className="mx-auto flex w-full max-w-[1492px] flex-col hidden">
         <div className="mb-5.5 inline-flex w-fit rounded-[43px] border border-[#00EEFF] bg-[#040016D9] px-6 py-4 text-center text-[23.61px] leading-none font-bold uppercase shadow-[0px_0px_14.8px_0px_#00AAFF]">
           MENTOR BACCARAT - ĐẦU TƯ & TỰ DO TÀI CHÍNH
