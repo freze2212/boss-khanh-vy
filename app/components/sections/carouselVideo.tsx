@@ -1,37 +1,44 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  useVideoOverlay,
+  type VideoItem,
+} from "../contexts/video-overlay-context";
 import VideoModal from "../ui/video-modal";
 
-type VideoSlide = {
-  id: string;
-  title: string;
-  thumbnail: string;
-  alt: string;
-  src: string;
-  type: "embed" | "file";
-};
-
-const primaryVideoSrc = "https://vimeo.com/1200443108?fl=ip&fe=ec";
-const secondaryVideoSrc = "https://player.vimeo.com/video/1192954531";
-
-const videoSlides: VideoSlide[] = Array.from({ length: 9 }, (_, index) => ({
-  id: `video-${index + 1}`,
-  title: `Video ${index + 1}`,
-  thumbnail: "/images/carousel/thumpnail.webp",
-  alt: `Video ${index + 1}`,
-  src: index % 2 === 0 ? primaryVideoSrc : secondaryVideoSrc,
-  type: "embed" as const,
-}));
+const videoSlides: VideoItem[] = [
+  {
+    id: `video-1`,
+    title: `Video  1`,
+    thumbnail: "/images/carousel/thumpnail.webp",
+    alt: `Video 1`,
+    src: "https://vimeo.com/1200959707?autoplay=1&title=0&byline=0&portrait=0&badge=0",
+    type: "embed" as const,
+  },
+  {
+    id: `video-2`,
+    title: `Video  1`,
+    thumbnail: "/images/carousel/thumpnail-1.jpg",
+    alt: `Video 1`,
+    src: "https://vimeo.com/1200959497?autoplay=1&muted=1&title=0&byline=0&portrait=0&badge=0",
+    type: "embed" as const,
+  },
+  {
+    id: `video-3`,
+    title: `Video  1`,
+    thumbnail: "/images/carousel/thumpnail-2.jpg",
+    alt: `Video 1`,
+    src: "https://vimeo.com/1200958961?autoplay=1&muted=1&title=0&byline=0&portrait=0&badge=0",
+    type: "embed" as const,
+  },
+];
 
 export default function CarouselVideo() {
-  const [selectedVideo, setSelectedVideo] = useState<VideoSlide | null>(null);
+  const { closeVideo, openVideo, selectedVideo } = useVideoOverlay();
 
   return (
-    <section className="video-carousel w-full px-4 text-white lg:px-8 lg:py-6">
+    <section className="video-carousel w-full px-4 text-white lg:px-8 lg:py-6 mb-8">
       <div className="mx-auto w-full max-w-[1493px]">
         <Image
           src="/images/carousel/title-video.webp"
@@ -42,6 +49,50 @@ export default function CarouselVideo() {
           priority
         />
 
+        <div className="flex justify-center gap-10">
+          {videoSlides.map((slide) => (
+            <div key={slide.id} className="w-[360px] h-[460px]">
+              <button
+                type="button"
+                onClick={() => openVideo(slide)}
+                className="
+                w-[360px] h-[460px]
+                group relative block w-full overflow-hidden 
+                rounded-[22px] border border-[#00AFFF]
+                 bg-[#071321] text-left shadow-[0px_0px_18px_rgba(0,170,255,0.18)]
+                  transition hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00EEFF]
+                focus-visible:ring-offset-2 focus-visible:ring-offset-[#071321]"
+                aria-label={`Mở ${slide.title}`}
+              >
+                <Image
+                  src={slide.thumbnail}
+                  alt={slide.alt}
+                  width={260}
+                  height={360}
+                  className="h-auto w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                />
+                <div className="absolute inset-0 bg-[#090909]/45" />
+                <span className="absolute top-1/2 left-1/2 flex h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/72 shadow-[0px_4px_24px_rgba(0,0,0,0.35)]">
+                  <span className="ml-1 block h-0 w-0 border-y-[10px] border-y-transparent border-l-[16px] border-l-white" />
+                </span>
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+      <VideoModal
+        isOpen={selectedVideo !== null}
+        title={selectedVideo?.title ?? ""}
+        src={selectedVideo?.src}
+        type={selectedVideo?.type}
+        onClose={closeVideo}
+      />
+    </section>
+  );
+}
+
+{
+  /* 
         <div className="relative px-12 lg:px-[74px]">
           <button
             type="button"
@@ -118,16 +169,5 @@ export default function CarouselVideo() {
               className="h-full w-full"
             />
           </button>
-        </div>
-      </div>
-
-      <VideoModal
-        isOpen={selectedVideo !== null}
-        title={selectedVideo?.title ?? ""}
-        src={selectedVideo?.src}
-        type={selectedVideo?.type}
-        onClose={() => setSelectedVideo(null)}
-      />
-    </section>
-  );
+        </div> */
 }
